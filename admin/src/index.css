@@ -1,0 +1,11 @@
+/* =================Import Styles Start====================== */
+@import url("https://fonts.googleapis.com/css2?family=PT+Sans:wght@400;700&display=swap");
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ==================Main Styles Start======================= */
+* {
+    font-family: "PT Sans", sans-serif;
+}
