@@ -1,7 +1,30 @@
-import React from "react";
 import AppointmentTable from "../../../components/AppointmentTable";
+import React, { useEffect, useState } from "react";
+import { APPOINTMENT_API_URL } from "../../../constants/Data";
+import axios from "axios";
+
 
 const AllAppointments = () => {
+  const [appointments, setAppointments] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  //view all patients
+  useEffect(() => {
+    const fetchAppointments = async () => {
+      try {
+        const response = await axios.get(`${APPOINTMENT_API_URL}/all`);
+        setAppointments(response.data);
+        setLoading(false);
+      } catch (error) {
+        console.error("Error fetching appointments:", error);
+        setLoading(false);
+      }
+    };
+
+    fetchAppointments();
+  }, []);
+
+  
   return (
     <div className="flex flex-col w-full gap-5 mx-auto">
       <h3 className="text-[20px]">Appointment Informations</h3>
@@ -14,7 +37,12 @@ const AllAppointments = () => {
         </button>
       </a>
       <div>
-        <AppointmentTable />
+        <AppointmentTable 
+         appointments={appointments}
+         setAppointments={setAppointments}
+         setLoading={setLoading}
+         loading={loading}
+         />
       </div>
     </div>
   );

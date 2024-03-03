@@ -22,6 +22,7 @@ import Tests from "../pages/admin/test/Tests";
 import Payment from "../pages/admin/payment/Payment";
 import CreateTechnician from "../pages/admin/technician/CreateTechnician";
 import EditPatient from "../pages/admin/patient/EditPatient";
+import EditAppointment from "../pages/admin/appointment/EditAppointment";
 
 const Root = () => {
   const [userRole, setUserRole] = useState("");
@@ -54,6 +55,7 @@ const Root = () => {
           <Route path="patient-dashboard" element={<PatientDashboard />} />
           <Route path="appointment" element={<AllAppointments />} />
           <Route path="create-appointment" element={<CreateAppointment />} />
+          <Route path="edit-appointment/:id" element={<EditAppointment />} />
           <Route path="patient-registration" element={<CreateRegistration />} />
           <Route path="edit-patient/:id" element={<EditPatient />} />
           <Route path="account" element={<Account />} />
