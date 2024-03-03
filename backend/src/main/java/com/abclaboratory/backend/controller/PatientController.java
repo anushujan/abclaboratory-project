@@ -22,6 +22,7 @@ public class PatientController {
     //=======================================
     //=============create patient============
     //=======================================
+    //==test=====
     @PostMapping("/create")
     public ResponseEntity<?> addPatient(@RequestBody @Valid Patient patient, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
