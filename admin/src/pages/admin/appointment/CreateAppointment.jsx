@@ -1,7 +1,5 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { useFormik } from "formik";
-import * as Yup from "yup";
 
 const AppointmentForm = () => {
   const [patients, setPatients] = useState([]);
@@ -9,6 +7,7 @@ const AppointmentForm = () => {
   const [date, setDate] = useState("");
   const [time, setTime] = useState("");
   const [appointmentNumber, setAppointmentNumber] = useState("");
+  const [errors, setErrors] = useState({});
 
   useEffect(() => {
     // Fetch the list of patients from the backend API
@@ -24,6 +23,13 @@ const AppointmentForm = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    // Validate the form
+    const validationErrors = validateForm();
+    if (Object.keys(validationErrors).length > 0) {
+      setErrors(validationErrors);
+      return;
+    }
 
     try {
       // Prepare the data for the POST request
@@ -43,14 +49,39 @@ const AppointmentForm = () => {
 
       console.log("Form submitted successfully:", response.data);
 
+      // Clear the form
       setSelectedPatient("");
       setDate("");
       setTime("");
       setAppointmentNumber("");
+      setErrors({});
     } catch (error) {
       console.error("Error submitting form:", error);
     }
   };
+
+  const validateForm = () => {
+    const errors = {};
+
+    if (!selectedPatient) {
+      errors.selectedPatient = "Please select a patient";
+    }
+
+    if (!date) {
+      errors.date = "Please select a date";
+    }
+
+    if (!time) {
+      errors.time = "Please select a time";
+    }
+
+    if (!appointmentNumber) {
+      errors.appointmentNumber = "Please enter an appointment number";
+    }
+
+    return errors;
+  };
+
   return (
     <div className="flex flex-col w-full gap-5 mx-auto">
       <h3 className="text-[20px]">Create Appointment</h3>
@@ -66,10 +97,13 @@ const AppointmentForm = () => {
                   Patient ID
                 </label>
                 <select
-                  id="patient_id"
-                  name="patient_id"
-                  className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light"
-                  required
+                  id="selectedPatient"
+                  name="selectedPatient"
+                  className={`shadow-sm ${
+                    errors.selectedPatient
+                      ? "border-red-500"
+                      : "border-gray-300"
+                  } bg-gray-50 border text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light`}
                   value={selectedPatient}
                   onChange={(e) => setSelectedPatient(e.target.value)}
                 >
@@ -82,6 +116,11 @@ const AppointmentForm = () => {
                     </option>
                   ))}
                 </select>
+                {errors.selectedPatient && (
+                  <p className="mt-1 text-xs text-red-500">
+                    {errors.selectedPatient}
+                  </p>
+                )}
               </div>
               <div className="mb-5 lg:w-[500px]">
                 <label
@@ -92,13 +131,17 @@ const AppointmentForm = () => {
                 </label>
                 <input
                   type="date"
-                  id="appointment_date"
-                  name="appointment_date"
-                  className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light"
-                  required
+                  id="date"
+                  name="date"
+                  className={`shadow-sm ${
+                    errors.date ? "border-red-500" : "border-gray-300"
+                  } bg-gray-50 border text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light`}
                   value={date}
                   onChange={(e) => setDate(e.target.value)}
                 />
+                {errors.date && (
+                  <p className="mt-1 text-xs text-red-500">{errors.date}</p>
+                )}
               </div>
             </div>
             <div className="mb-5 lg:w-[500px]">
@@ -110,13 +153,18 @@ const AppointmentForm = () => {
               </label>
               <input
                 type="time"
-                id="appointment_time"
-                name="appointment_time"
-                className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light"
-                required
+                id="time"
+                name="time"
+                className={`shadow-sm ${
+                  errors.time ? "border-red-500" : "border-gray-300"
+                } bg-gray-50 border text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light`}
+                
                 value={time}
                 onChange={(e) => setTime(e.target.value)}
               />
+              {errors.time && (
+                <p className="mt-1 text-xs text-red-500">{errors.time}</p>
+              )}
             </div>
             <div className="mb-5 lg:w-[500px]">
               <label
@@ -127,13 +175,22 @@ const AppointmentForm = () => {
               </label>
               <input
                 type="number"
-                id="appointment_number"
-                name="appointment_number"
-                className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light"
-                required
+                id="appointmentNumber"
+                name="appointmentNumber"
+                className={`shadow-sm ${
+                  errors.appointmentNumber
+                    ? "border-red-500"
+                    : "border-gray-300"
+                } bg-gray-50 border text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light`}
+                
                 value={appointmentNumber}
                 onChange={(e) => setAppointmentNumber(e.target.value)}
               />
+              {errors.appointmentNumber && (
+                <p className="mt-1 text-xs text-red-500">
+                  {errors.appointmentNumber}
+                </p>
+              )}
             </div>
             <div className="flex justify-end">
               <button
