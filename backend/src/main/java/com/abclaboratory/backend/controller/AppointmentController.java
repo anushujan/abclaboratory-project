@@ -19,18 +19,13 @@ import java.util.stream.Collectors;
 public class AppointmentController {
     @Autowired
     private AppointmentService appointmentService;
+
     //=======================================
     //=========create Appointment============
     //=======================================
     @PostMapping("/create")
-    public ResponseEntity<?> scheduleAppointment(@RequestBody @Valid Appointment appointment, BindingResult bindingResult) {
-        if (bindingResult.hasErrors()) {
-            // Collect validation error messages
-            List<String> errors = bindingResult.getFieldErrors().stream()
-                    .map(FieldError::getDefaultMessage)
-                    .collect(Collectors.toList());
-            return new ResponseEntity<>(errors, HttpStatus.BAD_REQUEST);
-        }
+    public ResponseEntity<?> scheduleAppointment(@RequestBody Appointment appointment) {
+
         try {
             Appointment savedAppointment = appointmentService.scheduleAppointment(appointment);
             return new ResponseEntity<>(savedAppointment, HttpStatus.CREATED);
@@ -39,6 +34,7 @@ public class AppointmentController {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
     //=======================================
     //=============All Appointment===========
     //=======================================
