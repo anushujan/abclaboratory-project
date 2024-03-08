@@ -5,6 +5,7 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useFormik } from "formik";
 import * as yup from "yup";
+import { RxSlash } from "react-icons/rx";
 
 const CreateRegistration = () => {
   const formRef = useRef(null);
@@ -51,7 +52,20 @@ const CreateRegistration = () => {
   return (
     <>
       <div className="flex flex-col w-full gap-5 mx-auto">
-        <h3 className="text-[20px]">Make an Appointment</h3>
+        <nav class="my-2">
+        <ol class="flex text-gray-500">
+          <li class="flex items-center">
+            <a href="/" class="hover:text-blue-500">
+              Home
+            </a>
+            <RxSlash />
+          </li>
+          <li class="flex items-center text-blue-500">
+            <span>Patient Registration</span>
+          </li>
+        </ol>
+      </nav>
+      <hr />
         <div className="flex flex-col lg:flex-row lg:gap-3">
           <form
             className=""

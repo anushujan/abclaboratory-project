@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 
+import { RxSlash } from "react-icons/rx";
 const AppointmentForm = () => {
   const [patients, setPatients] = useState([]);
   const [selectedPatient, setSelectedPatient] = useState("");
@@ -41,7 +42,6 @@ const AppointmentForm = () => {
           id: selectedPatient,
         },
       };
-
       const response = await axios.post(
         "http://localhost:8080/api/appointments/create",
         postData
@@ -84,10 +84,23 @@ const AppointmentForm = () => {
 
   return (
     <div className="flex flex-col w-full gap-5 mx-auto">
-      <h3 className="text-[20px]">Create Appointment</h3>
+      <nav class="my-2">
+        <ol class="flex text-gray-500">
+          <li class="flex items-center">
+            <a href="/" class="hover:text-blue-500">
+              Home
+            </a>
+            <RxSlash />
+          </li>
+          <li class="flex items-center text-blue-500">
+            <span>Create Appointment</span>
+          </li>
+        </ol>
+      </nav>
+      <hr />
       <div className="flex flex-col lg:flex-row lg:gap-3">
         <form className="" onSubmit={handleSubmit}>
-          <div className="p-[20px] bg-white rounded-md shadow-sm lg:w-[560px]">
+          <div className="p-[20px] bg-white rounded-md shadow-sm lg:w-[560px] dark:bg-[#0e2139]">
             <div className="flex flex-col lg:gap-3 lg:flex-row lg:w-[500px]">
               <div className="mb-5 lg:w-[500px]">
                 <label
@@ -158,7 +171,6 @@ const AppointmentForm = () => {
                 className={`shadow-sm ${
                   errors.time ? "border-red-500" : "border-gray-300"
                 } bg-gray-50 border text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light`}
-                
                 value={time}
                 onChange={(e) => setTime(e.target.value)}
               />
@@ -174,7 +186,7 @@ const AppointmentForm = () => {
                 Appointment Number
               </label>
               <input
-                type="number"
+                type="text"
                 id="appointmentNumber"
                 name="appointmentNumber"
                 className={`shadow-sm ${
@@ -182,7 +194,6 @@ const AppointmentForm = () => {
                     ? "border-red-500"
                     : "border-gray-300"
                 } bg-gray-50 border text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light`}
-                
                 value={appointmentNumber}
                 onChange={(e) => setAppointmentNumber(e.target.value)}
               />
