@@ -12,7 +12,7 @@ const Header = ({ onToggleSidebar, userRole }) => {
 
   const handleLogout = () => {
     localStorage.removeItem("userRole");
-    navigate("/login");
+    navigate("/");
   };
 
   return (

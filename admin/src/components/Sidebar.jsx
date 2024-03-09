@@ -13,7 +13,7 @@ const getLinksByUserRole = (userRole) => {
   if (userRole === "admin") {
     return [
       {
-        to: "/",
+        to: "/dashboard",
         text: "Dashboard",
         icon: <BiSolidDashboard className="text-[20px]" />,
       },
