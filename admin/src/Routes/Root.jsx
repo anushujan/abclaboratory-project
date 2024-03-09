@@ -23,9 +23,10 @@ import Payment from "../pages/admin/payment/Payment";
 import CreateTechnician from "../pages/admin/technician/CreateTechnician";
 import EditPatient from "../pages/admin/patient/EditPatient";
 import EditAppointment from "../pages/admin/appointment/EditAppointment";
+import NotFound from "../pages/NotFound";
 
 const Root = () => {
-  const [userRole, setUserRole] = useState("");
+  const [userRole, setUserRole] = useState(localStorage.getItem("userRole") || "");
 
   const handleLogin = (role) => {
     setUserRole(role);
@@ -33,48 +34,57 @@ const Root = () => {
   };
 
   const generateRoutes = () => {
+    const isLoggedIn = userRole !== "";
     return createRoutesFromElements(
       <>
-        <Route
-          path="/"
-          element={<RootLayout userRole={userRole} setUserRole={setUserRole} />}
-        >
+        {isLoggedIn && (
           <Route
-            index
+            path="/"
             element={
-              userRole === "admin" ? (
-                <Dashboard userRole={userRole} />
-              ) : (
-                <>
-                  <PatientDashboard userRole={userRole} />
-                </>
-              )
+              <RootLayout userRole={userRole} setUserRole={setUserRole} />
             }
-          ></Route>
-          <Route index element={<Dashboard />} />
-          <Route path="patient-dashboard" element={<PatientDashboard />} />
-          <Route path="appointment" element={<AllAppointments />} />
-          <Route path="create-appointment" element={<CreateAppointment />} />
-          <Route path="edit-appointment/:id" element={<EditAppointment />} />
-          <Route path="patient-registration" element={<CreateRegistration />} />
-          <Route path="edit-patient/:id" element={<EditPatient />} />
-          <Route path="account" element={<Account />} />
-          <Route path="patients" element={<Patients />} />
-          <Route path="doctors" element={<Doctor />} />
-          <Route path="tests" element={<Tests />} />
-          <Route path="payments" element={<Payment />} />
-          <Route path="create-doctor" element={<CreateDoctor />} />
+          >
+            <Route
+              path="/dashboard"
+              element={
+                userRole === "admin" ? (
+                  <Dashboard userRole={userRole} />
+                ) : (
+                  <>
+                    <PatientDashboard userRole={userRole} />
+                  </>
+                )
+              }
+            ></Route>
+            <Route path="dashboard" element={<Dashboard />} />
+            <Route path="patient-dashboard" element={<PatientDashboard />} />
+            <Route path="appointment" element={<AllAppointments />} />
+            <Route path="create-appointment" element={<CreateAppointment />} />
+            <Route path="edit-appointment/:id" element={<EditAppointment />} />
+            <Route
+              path="patient-registration"
+              element={<CreateRegistration />}
+            />
+            <Route path="edit-patient/:id" element={<EditPatient />} />
+            <Route path="account" element={<Account />} />
+            <Route path="patients" element={<Patients />} />
+            <Route path="doctors" element={<Doctor />} />
+            <Route path="tests" element={<Tests />} />
+            <Route path="payments" element={<Payment />} />
+            <Route path="create-doctor" element={<CreateDoctor />} />
 
-          <Route path="create-technician" element={<CreateTechnician />} />
-          <Route path="Technicians" element={<Technicians />} />
-          <Route path="invoice" element={<Invoice />} />
-        </Route>
+            <Route path="create-technician" element={<CreateTechnician />} />
+            <Route path="Technicians" element={<Technicians />} />
+            <Route path="invoice" element={<Invoice />} />
+          </Route>
+        )}
         <Route
-          path="login"
+          index
           element={
             <Login onLogin={(newUserRole) => handleLogin(newUserRole)} />
           }
         />
+        <Route path="*" element={<NotFound />} />
       </>
     );
   };

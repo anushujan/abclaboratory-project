@@ -17,7 +17,7 @@ const Login = ({ onLogin }) => {
     if (email === adminCredentials.email && password === adminCredentials.password) {
       // Admin login
       onLogin("admin"); 
-      navigate("/");
+      navigate("/dashboard");
     } else if (email === patientCredentials.email && password === patientCredentials.password) {
       // Patient login
       onLogin("patient"); 
