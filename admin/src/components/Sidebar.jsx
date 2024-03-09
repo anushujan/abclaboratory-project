@@ -28,6 +28,11 @@ const getLinksByUserRole = (userRole) => {
         icon: <FaUserInjured className="text-[20px]" />,
       },
       {
+        to: "/tests",
+        text: "Tests",
+        icon: <TbTestPipe className="text-[20px]" />,
+      },
+      {
         to: "/doctors",
         text: "Doctors",
         icon: <FaUserDoctor className="text-[20px]" />,
@@ -38,16 +43,11 @@ const getLinksByUserRole = (userRole) => {
         icon: <FaHospitalUser className="text-[20px]" />,
       },
       {
-        to: "/tests",
-        text: "Tests",
-        icon: <TbTestPipe className="text-[20px]" />,
-      },
-      {
         to: "/payments",
         text: "Payments",
         icon: <MdOutlinePayment className="text-[20px]" />,
       },
-    /*   {
+      /*   {
         to: "/account",
         text: "Accounts",
         icon: <HiMiniUsers className="text-[20px]" />,
