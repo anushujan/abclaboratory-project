@@ -24,6 +24,8 @@ import CreateTechnician from "../pages/admin/technician/CreateTechnician";
 import EditPatient from "../pages/admin/patient/EditPatient";
 import EditAppointment from "../pages/admin/appointment/EditAppointment";
 import NotFound from "../pages/NotFound";
+import EditDoctor from "../pages/admin/doctor/EditDoctor";
+import EditTechnician from "../pages/admin/technician/EditTechnician";
 
 const Root = () => {
   const [userRole, setUserRole] = useState(localStorage.getItem("userRole") || "");
@@ -72,9 +74,10 @@ const Root = () => {
             <Route path="tests" element={<Tests />} />
             <Route path="payments" element={<Payment />} />
             <Route path="create-doctor" element={<CreateDoctor />} />
-
+            <Route path="edit-doctor/:id" element={<EditDoctor />} />
             <Route path="create-technician" element={<CreateTechnician />} />
             <Route path="Technicians" element={<Technicians />} />
+            <Route path="edit-technician/:id" element={<EditTechnician />} />
             <Route path="invoice" element={<Invoice />} />
           </Route>
         )}
