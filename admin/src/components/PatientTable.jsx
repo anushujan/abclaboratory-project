@@ -6,6 +6,7 @@ import axios from "axios";
 import { PATIENT_API_URL } from "../constants/Data";
 import Swal from "sweetalert2";
 
+
 const PatientTable = ({ patients, setPatients, setLoading, loading }) => {
   console.log("Received patients prop:", patients);
   const itemsPerPage = 8;
