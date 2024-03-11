@@ -1,145 +1,126 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { TECHNICIAN_API_URL } from "../../../constants/Data";
-import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
-import { useFormik } from "formik";
-import * as yup from "yup";
-import { RxSlash } from "react-icons/rx";
+import {
+  TEST_API_URL,
+  PATIENT_API_URL,
+  TECHNICIAN_API_URL,
+  DOCTOR_API_URL,
+} from "../constants/Data";
+import { Link } from "react-router-dom";
+import Swal from "sweetalert2";
+import { MdNavigateBefore } from "react-icons/md";
+import { MdNavigateNext } from "react-icons/md";
+import jsPDF from "jspdf"; // Import jsPDF library
 
-const CreateTechnician = () => {
-  const formRef = useRef(null);
+const TestTable = ({ tests, setTests, setLoading, loading }) => {
+  console.log("Received doctors prop:", tests);
+  const itemsPerPage = 8;
+  const [currentPage, setCurrentPage] = useState(1);
 
-  const validationSchema = yup.object().shape({
-    name: yup.string().required("Name is required"),
-    phone: yup.string().required("Phone is required"),
-    email: yup
-      .string()
-      .email("Invalid email format")
-      .required("Email is required"),
-    phone: yup.string().required("Phone is required"),
-    specialization: yup.string().required("Specialization is required"),
-  });
+  const indexOfLastTest = currentPage * itemsPerPage;
+  const indexOfFirstTest = indexOfLastTest - itemsPerPage;
+  const currentTests = tests.slice(indexOfFirstTest, indexOfLastTest);
 
-  const formik = useFormik({
-    initialValues: {
-      name: "",
-      phone: "",
-      email: "",
-      specialization: "",
-    },
-    validationSchema: validationSchema,
-    onSubmit: async (values) => {
-      try {
-        const response = await axios.post(`${TECHNICIAN_API_URL}/create`, values);
-        console.log("Technician created successfully:", response.data);
-        toast.info("Technician created successfully", {
-          position: "top-right",
-          autoClose: 2000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          theme: "colored",
-        });
-        formik.resetForm();
-      } catch (error) {
-        console.error("Error creating Technician:", error);
-      }
-    },
-  });
+  const totalPages = Math.ceil(tests.length / itemsPerPage);
+
+  const paginate = (pageNumber) => {
+    if (pageNumber > 0 && pageNumber <= totalPages) {
+      setCurrentPage(pageNumber);
+    }
+  };
+
+  // Delete patient
+  const handleRemove = async (id) => {
+    // ... (no changes)
+  };
+
+  const updateTests = (updatedTests) => {
+    console.log("Updating tests:", updatedTests);
+    setTests(updatedTests);
+  };
+
+  const [technicians, setTechnicians] = useState({});
+  const [patients, setPatients] = useState({});
+  const [doctors, setDoctors] = useState({});
+
+  useEffect(() => {
+    // Fetch patient, doctor, and technician details
+    const fetchPatientDetails = async () => {
+      // ... (no changes)
+    };
+    const fetchDoctorDetails = async () => {
+      // ... (no changes)
+    };
+    const fetchTechnicianDetails = async () => {
+      // ... (no changes)
+    };
+
+    fetchTechnicianDetails();
+    fetchDoctorDetails();
+    fetchPatientDetails();
+  }, []);
+
+  // Function to generate PDF for a selected row
+  const downloadPdf = (rowData) => {
+    const pdf = new jsPDF();
+    pdf.text(`Test Name: ${rowData.testName}`, 10, 10);
+    pdf.text(`Test Type: ${rowData.testType}`, 10, 20);
+    pdf.text(`Result: ${rowData.testResult}`, 10, 30);
+    pdf.text(`Test Date: ${rowData.testDate}`, 10, 40);
+    pdf.text(`Description: ${rowData.testDescription}`, 10, 50);
+    pdf.text(`Patient: ${patients[rowData.patient.id] || "Unknown"}`, 10, 60);
+    pdf.text(`Doctor: ${doctors[rowData.doctor.id] || "Unknown"}`, 10, 70);
+    pdf.text(
+      `Technician: ${technicians[rowData.technician.id] || "Unknown"}`,
+      10,
+      80
+    );
+    pdf.text(`Recommender: ${rowData.recommender}`, 10, 90);
+
+    pdf.save("test_report.pdf");
+  };
+
   return (
-    <div className="flex flex-col w-full gap-5 mx-auto">
-      <h3 className="text-[20px]">Create Technician</h3>
-      <div className="flex flex-col lg:flex-row lg:gap-3">
-        <form className="" action="" method="POST">
-          <div className="p-[20px] bg-white rounded-md shadow-sm lg:w-[560px]">
-            <div className="flex flex-col lg:gap-3 lg:flex-row lg:w-[500px]">
-              <div class="mb-5 lg:w-[500px]">
-                <label
-                  for="name"
-                  className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+    <div className="relative overflow-x-auto shadow-sm sm:rounded-lg">
+      <table className="w-full text-sm text-left text-gray-500 rtl:text-right dark:text-gray-400">
+        {/* ... (no changes in the table header) */}
+        <tbody>
+          {currentTests.map((test) => (
+            <tr
+              key={test.id}
+              className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
+              onClick={() => downloadPdf(test)}
+            >
+              {/* ... (no changes in the table cells) */}
+              <td className="flex items-center px-6 py-4">
+                <Link
+                  to={`/edit-test/${test.id}`}
+                  className="font-medium text-blue-600 dark:text-blue-500 hover:underline"
                 >
-                  Technician Name
-                </label>
-                <input
-                  type="name"
-                  id="name"
-                  name="name"
-                  className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light"
-                  placeholder="Enter Name"
-                  required
-                />
-              </div>
-              <div class="mb-5 lg:w-[500px]">
-                <label
-                  for="phone"
-                  className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                  Edit
+                </Link>
+                <button
+                  onClick={() => handleRemove(test.id)}
+                  className="font-medium text-red-600 dark:text-red-500 hover:underline ms-3"
                 >
-                  Technician Phone
-                </label>
-                <input
-                  type="phone"
-                  id="phone"
-                  name="phone"
-                  className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light"
-                  placeholder="Enter Phone"
-                  required
-                />
-              </div>
-            </div>
-            <div class="mb-5 lg:w-[500px] ">
-              <label
-                for="email"
-                className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-              >
-                Technician Email
-              </label>
-              <input
-                type="email"
-                id="email"
-                name="email"
-                className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light"
-                placeholder="Enter Email"
-                required
-              />
-            </div>
-            <div class="mb-5 lg:w-[500px] ">
-              <label
-                for="special"
-                className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-              >
-                Technician Specialization
-              </label>
-              <input
-                type="special"
-                id="special"
-                name="special"
-                className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light"
-                placeholder="Enter Specialization"
-                required
-              />
-            </div>
-            <div className="flex justify-end">
-              <button
-                type="reset"
-                class="text-white bg-[#cb3636] hover:bg-[#e05050] font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2"
-              >
-                Clear All
-              </button>
-              <button
-                type="submit"
-                class="text-white bg-[#3067af] hover:bg-[#0e2139] font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2"
-              >
-                Submit
-              </button>
-            </div>
+                  Remove
+                </button>
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+      <div className="flex justify-end w-full bg-white">
+        <div className="flex justify-end">
+          {/* Pagination component */}
+          <div className="flex items-center justify-between px-4 py-3 bg-white border-t border-gray-200 sm:px-6">
+            {/* Previous button */}
+            {/* ... (no changes in pagination) */}
           </div>
-        </form>
+        </div>
       </div>
     </div>
   );
 };
 
-export default CreateTechnician;
+export default TestTable;
