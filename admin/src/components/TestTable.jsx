@@ -117,7 +117,7 @@ const TestTable = ({ tests, setTests, setLoading, loading }) => {
   const downloadPdf = (rowData) => {
     const pdf = new jsPDF();
     pdf.setFont("helvetica", "normal");
-    
+
     pdf.setFillColor(173, 216, 230); // Light blue color
     pdf.rect(0, 0, 210, 25, "F");
     // Title
@@ -136,8 +136,6 @@ const TestTable = ({ tests, setTests, setLoading, loading }) => {
       20,
       { align: "right" }
     );
-
-   
 
     // Reset text color
     pdf.setTextColor(0, 0, 0);
@@ -186,9 +184,12 @@ const TestTable = ({ tests, setTests, setLoading, loading }) => {
         <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
           <tr>
             <th scope="col" className="px-6 py-3">
-              Id
+              
             </th>
             <th scope="col" className="px-6 py-3">
+              Id
+            </th>
+            <th scope="col" className="px-6 py-3 min-w-[140px] w-[140px]">
               Test Name
             </th>
             <th scope="col" className="px-6 py-3">
@@ -197,26 +198,23 @@ const TestTable = ({ tests, setTests, setLoading, loading }) => {
             <th scope="col" className="px-6 py-3">
               Result
             </th>
-            <th scope="col" className="px-6 py-3">
+            <th scope="col" className="px-6 py-3 min-w-[140px] w-[140px]">
               Test Date
             </th>
-            <th scope="col" className="px-6 py-3">
+            <th scope="col" className="px-6 py-3 min-w-[260px] w-[260px]">
               Description
             </th>
-            <th scope="col" className="px-6 py-3">
+            <th scope="col" className="px-6 py-3 min-w-[140px] w-[140px]">
               Patient
             </th>
-            <th scope="col" className="px-6 py-3">
+            <th scope="col" className="px-6 py-3 min-w-[140px] w-[140px]">
               Doctor
             </th>
-            <th scope="col" className="px-6 py-3">
+            <th scope="col" className="px-6 py-3 min-w-[140px] w-[140px]">
               Technician
             </th>
-            <th scope="col" className="px-6 py-3">
+            <th scope="col" className="px-6 py-3 min-w-[200px] w-[200px]">
               Recommender
-            </th>
-            <th scope="col" className="px-6 py-3">
-              Action
             </th>
           </tr>
         </thead>
@@ -226,26 +224,6 @@ const TestTable = ({ tests, setTests, setLoading, loading }) => {
               key={test.id}
               className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
             >
-              <td className="px-6 py-4">{test.id}</td>
-              <td className="px-6 py-4">{test.testName}</td>
-              <td className="px-6 py-4">{test.testType}</td>
-              <td className="px-6 py-4">{test.testResult}</td>
-              <td className="px-6 py-4">{test.testDate}</td>
-              <td className="px-6 py-4">{test.testDescription}</td>
-              <td className="px-6 py-4">
-                {patients[test.patient.id] || "Unknown"}
-              </td>
-
-              {/* <td className="hidden px-6 py-4">{test.doctor.id}</td> */}
-              <td className="px-6 py-4">
-                {doctors[test.doctor.id] || "Unknown"}
-              </td>
-              {/* <td className="hidden px-6 py-4">{test.technician.id}</td> */}
-              <td className="px-6 py-4">
-                {technicians[test.technician.id] || "Unknown"}
-              </td>
-
-              <td className="px-6 py-4">{test.recommender}</td>
               <td className="flex items-center px-6 py-4">
                 <Link
                   to={`/edit-test/${test.id}`}
@@ -267,12 +245,32 @@ const TestTable = ({ tests, setTests, setLoading, loading }) => {
                   pdf
                 </button>
               </td>
+              <td className="px-6 py-4">{test.id}</td>
+              <td className="px-6 py-4">{test.testName}</td>
+              <td className="px-6 py-4">{test.testType}</td>
+              <td className="px-6 py-4">{test.testResult}</td>
+              <td className="px-6 py-4">{test.testDate}</td>
+              <td className="px-6 py-4">{test.testDescription}</td>
+              <td className="px-6 py-4">
+                {patients[test.patient.id] || "Unknown"}
+              </td>
+
+              {/* <td className="hidden px-6 py-4">{test.doctor.id}</td> */}
+              <td className="px-6 py-4">
+                {doctors[test.doctor.id] || "Unknown"}
+              </td>
+              {/* <td className="hidden px-6 py-4">{test.technician.id}</td> */}
+              <td className="px-6 py-4">
+                {technicians[test.technician.id] || "Unknown"}
+              </td>
+
+              <td className="px-6 py-4">{test.recommender}</td>
             </tr>
           ))}
         </tbody>
       </table>
       <div className="flex justify-end w-full bg-white">
-        <div className="flex justify-end">
+        <div className="flex justify-end ">
           {/* Pagination component */}
           <div className="flex items-center justify-between px-4 py-3 bg-white border-t border-gray-200 sm:px-6">
             {/* Previous button */}
