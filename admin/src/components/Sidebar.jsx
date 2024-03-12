@@ -65,6 +65,11 @@ const getLinksByUserRole = (userRole) => {
         text: "Registration",
         icon: <BiSolidDashboard className="text-[20px]" />,
       },
+      {
+        to: "/payments",
+        text: "Pay online",
+        icon: <MdOutlinePayment className="text-[20px]" />,
+      },
     ];
   }
   return [];
