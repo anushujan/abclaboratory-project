@@ -181,7 +181,7 @@ const TestTable = ({ tests, setTests, setLoading, loading }) => {
   return (
     <div className="relative overflow-x-auto shadow-sm sm:rounded-lg">
       <table className="w-full text-sm text-left text-gray-500 rtl:text-right dark:text-gray-400">
-        <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+      <thead class="text-xs text-white uppercase bg-[#3067af] dark:bg-gray-700 dark:text-gray-400">
           <tr>
             <th scope="col" className="px-6 py-3">
               
@@ -252,16 +252,18 @@ const TestTable = ({ tests, setTests, setLoading, loading }) => {
               <td className="px-6 py-4">{test.testDate}</td>
               <td className="px-6 py-4">{test.testDescription}</td>
               <td className="px-6 py-4">
-                {patients[test.patient.id] || "Unknown"}
+              {test.patient ? patients[test.patient.id] || "Unknown" : "Unknown"}
               </td>
 
               {/* <td className="hidden px-6 py-4">{test.doctor.id}</td> */}
               <td className="px-6 py-4">
-                {doctors[test.doctor.id] || "Unknown"}
+                {/* {doctors[test.doctor.id] || "Unknown"} */}
+                {test.doctor ? doctors[test.doctor.id] || "Unknown" : "Unknown"}
               </td>
               {/* <td className="hidden px-6 py-4">{test.technician.id}</td> */}
               <td className="px-6 py-4">
-                {technicians[test.technician.id] || "Unknown"}
+                {/* {technicians[test.technician.id] || "Unknown"} */}
+                {test.technician ? technicians[test.technician.id] || "Unknown" : "Unknown"}
               </td>
 
               <td className="px-6 py-4">{test.recommender}</td>
