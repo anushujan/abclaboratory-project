@@ -91,7 +91,7 @@ const Dashboard = ({ userRole }) => {
                 alt="banner"
                 className="object-cover w-full lg:h-[300px] h-[200px]"
               />
-              {/*  <img
+               <img
                 src={banner2}
                 alt="banner"
                 className="object-cover w-full lg:h-[500px] h-[200px]"
@@ -100,16 +100,16 @@ const Dashboard = ({ userRole }) => {
                 src={banner3}
                 alt="banner"
                 className="object-cover w-full lg:h-[500px] h-[200px]"
-              /> */}
+              />
             </Slider>
           </div>
         </div>
 
-        <div className="flex flex-col gap-2 md:flex-row overflow-scroll w-full">
+        <div className="flex flex-col w-full gap-2 overflow-scroll md:flex-row">
           {userRole === "admin" && (
             <Link
               to="/patients"
-              className=" min-w-64 w-full  p-6 bg-sky-100 border border-gray-200 rounded-lg shadow hover:bg-gray-100 flex items-center"
+              className="flex items-center w-full p-6 border border-gray-200 rounded-lg shadow  min-w-64 bg-sky-100 hover:bg-gray-100"
             >
               <div>
                 <FaHospitalUser className="text-[32px] mr-4" />
@@ -143,7 +143,7 @@ const Dashboard = ({ userRole }) => {
           {userRole === "admin" && (
             <Link
               to="/technicians"
-              className="min-w-64 w-full p-6 bg-sky-100  border border-gray-200 rounded-lg shadow hover:bg-gray-100 flex items-center"
+              className="flex items-center w-full p-6 border border-gray-200 rounded-lg shadow min-w-64 bg-sky-100 hover:bg-gray-100"
             >
               <div>
                 <BiTask className="text-[32px] mr-4" />

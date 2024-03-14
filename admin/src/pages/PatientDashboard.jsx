@@ -137,7 +137,7 @@ const PatientDashboard = () => {
 
         {/* Display Test Results */}
         <div className="overflow-scroll">
-          <h2 className="mb-2 text-lg font-medium">Test Results</h2>
+          <h2 className="mb-2 text-lg font-medium">Your Test Reports</h2>
           {tests.length > 0 ? (
             <table className="w-full text-sm text-left text-gray-500 rtl:text-right dark:text-gray-400">
               <thead class="text-xs text-white uppercase bg-[#3067af] dark:bg-gray-700 dark:text-gray-400">
