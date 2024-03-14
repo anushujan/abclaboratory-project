@@ -70,6 +70,11 @@ const getLinksByUserRole = (userRole) => {
         text: "Pay online",
         icon: <MdOutlinePayment className="text-[20px]" />,
       },
+      {
+        to: "/appointment-details",
+        text: "Appointment",
+        icon: <BiTask className="text-[20px]" />,
+      },
     ];
   }
   return [];

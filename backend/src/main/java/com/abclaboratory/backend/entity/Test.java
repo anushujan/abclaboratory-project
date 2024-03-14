@@ -44,6 +44,7 @@ public class Test {
     @JoinColumn(name = "technician_id")
     private Technician technician;
 
+    @NotBlank(message = "Recommender is required")
     @Column(name = "recommender_name")
     private String recommender;
 
