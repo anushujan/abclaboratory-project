@@ -89,6 +89,9 @@ const PatientTable = ({ patients, setPatients, setLoading, loading }) => {
                 Address
               </th>
               <th scope="col" class="px-6 py-3">
+                Reason
+              </th>
+              <th scope="col" class="px-6 py-3">
                 Action
               </th>
             </tr>
@@ -110,6 +113,7 @@ const PatientTable = ({ patients, setPatients, setLoading, loading }) => {
                 <td class="px-6 py-4">{patient.phone}</td>
                 <td class="px-6 py-4">{patient.email}</td>
                 <td class="px-6 py-4">{patient.address}</td>
+                <td class="px-6 py-4">{patient.reason}</td>
                 <td class="flex items-center px-6 py-4">
                   <Link
                     to={`/edit-patient/${patient.id}`}

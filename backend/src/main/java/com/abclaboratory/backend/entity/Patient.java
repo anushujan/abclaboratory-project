@@ -26,6 +26,11 @@ public class Patient {
     @NotBlank(message = "Address is required")
     private String address;
 
+    @Column(name = "reason")
+    @NotBlank(message = "Reason is required")
+    private String reason;
+
+
     @OneToMany(mappedBy = "patient", cascade = CascadeType.ALL)
     @JsonIgnoreProperties("patient")
     private List<Appointment> appointments;
@@ -68,6 +73,14 @@ public class Patient {
 
     public void setAddress(String address) {
         this.address = address;
+    }
+
+    public String getReason() {
+        return reason;
+    }
+
+    public void setReason(String reason) {
+        this.reason = reason;
     }
 
     public List<Appointment> getAppointments() {

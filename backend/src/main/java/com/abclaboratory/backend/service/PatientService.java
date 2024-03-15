@@ -31,6 +31,7 @@ public class PatientService {
             existingPatient.setPhone(updatedPatient.getPhone());
             existingPatient.setEmail(updatedPatient.getEmail());
             existingPatient.setAddress(updatedPatient.getAddress());
+            existingPatient.setReason(updatedPatient.getReason());
             return patientRepository.save(existingPatient);
         } else {
             return null;

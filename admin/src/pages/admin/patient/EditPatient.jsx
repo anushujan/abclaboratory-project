@@ -17,6 +17,7 @@ const EditPatient = () => {
       phone: "",
       email: "",
       address: "",
+      reason:""
     },
     validationSchema: yup.object().shape({
       name: yup.string().required("Name is required"),
@@ -26,6 +27,7 @@ const EditPatient = () => {
         .email("Invalid email format")
         .required("Email is required"),
       address: yup.string().required("Address is required"),
+      reason: yup.string().required("Reason is required"),
     }),
     onSubmit: async (values) => {
       try {
@@ -61,6 +63,7 @@ const EditPatient = () => {
           phone: patientData.phone,
           email: patientData.email,
           address: patientData.address,
+          reason: patientData.reason,
         }));
         console.log(patientData);
       } catch (error) {
@@ -207,6 +210,33 @@ const EditPatient = () => {
                 {formik.touched.address && formik.errors.address && (
                   <p className="mt-1 text-xs text-red-500">
                     {formik.errors.address}
+                  </p>
+                )}
+              </div>
+              <div className="mb-5 lg:w-[500px] ">
+                <label
+                  htmlFor="reason"
+                  className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                >
+                  Reason
+                </label>
+                <input
+                  type="reason"
+                  id="reason"
+                  name="reason"
+                  className={`shadow-sm ${
+                    formik.touched.reason && formik.errors.reason
+                      ? "border-red-500"
+                      : "border-gray-300"
+                  } bg-gray-50 border text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light`}
+                  placeholder="Enter Reason"
+                  value={formik.values.reason}
+                  onChange={formik.handleChange}
+                  onBlur={formik.handleBlur}
+                />
+                {formik.touched.reason && formik.errors.reason && (
+                  <p className="mt-1 text-xs text-red-500">
+                    {formik.errors.reason}
                   </p>
                 )}
               </div>
