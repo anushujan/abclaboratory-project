@@ -24,6 +24,7 @@ const Doctor = () => {
 
     fetchDoctors();
   }, []);
+  
   return (
     <div className="flex flex-col w-full gap-5 mx-auto">
         <nav class="my-2">
