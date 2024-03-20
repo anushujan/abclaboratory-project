@@ -21,6 +21,9 @@ const CreateRegistration = () => {
     reason: yup.string().required("Reason is required"),
   });
 
+  //==============================
+  //========post patient data=====
+  //==============================
   const formik = useFormik({
     initialValues: {
       name: "",

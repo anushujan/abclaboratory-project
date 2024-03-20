@@ -20,7 +20,9 @@ import java.util.stream.Collectors;
 public class TechnicianController {
     @Autowired
     private TechnicianService technicianService;
-
+    //=======================================
+    //=============create Technician=========
+    //=======================================
     @PostMapping("/create")
     public ResponseEntity<?> addTechnician(@RequestBody @Valid Technician technician, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
@@ -37,7 +39,9 @@ public class TechnicianController {
             return new ResponseEntity<>("Failed to create technician. Reason: " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-
+    //=======================================
+    //============get all Technician=========
+    //=======================================
     @GetMapping("/all")
     public ResponseEntity<List<Technician>> getAllTechnicians() {
         try {
@@ -47,7 +51,9 @@ public class TechnicianController {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-
+    //=======================================
+    //=========get by id Technician==========
+    //=======================================
     @GetMapping("/{id}")
     public ResponseEntity<Technician> getTechnicianById(@PathVariable Long id) {
         try {
@@ -61,7 +67,9 @@ public class TechnicianController {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-
+    //=======================================
+    //=============edit Technician===========
+    //=======================================
     @PutMapping("/edit/{id}")
     public ResponseEntity<?> editTechnician(@PathVariable Long id, @RequestBody Technician updatedTechnician) {
         try {
@@ -75,7 +83,9 @@ public class TechnicianController {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-
+    //=======================================
+    //=============delete Technician=========
+    //=======================================
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<String> deleteTechnician(@PathVariable Long id) {
         try {

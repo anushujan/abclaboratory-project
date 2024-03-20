@@ -145,7 +145,6 @@ const TestTable = ({ tests, setTests, setLoading, loading }) => {
       20,
       { align: "right" }
     );
-
     // Reset text color
     pdf.setTextColor(0, 0, 0);
 
