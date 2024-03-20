@@ -11,6 +11,8 @@ import Swal from "sweetalert2";
 import { MdNavigateBefore } from "react-icons/md";
 import { MdNavigateNext } from "react-icons/md";
 import jsPDF from "jspdf";
+import "jspdf-autotable";
+import { FaFilePdf } from "react-icons/fa";
 
 const TestTable = ({ tests, setTests, setLoading, loading }) => {
   console.log("Received doctors prop:", tests);
@@ -114,6 +116,13 @@ const TestTable = ({ tests, setTests, setLoading, loading }) => {
     fetchPatientDetails();
   }, []);
 
+  //all test pdf
+  const handleDownloadPDF = () => {
+    const doc = new jsPDF();
+    doc.autoTable({ html: "#test-table" });
+    doc.save("Abc Laboratories Test records.pdf");
+  };
+
   const downloadPdf = (rowData) => {
     const pdf = new jsPDF();
     pdf.setFont("helvetica", "normal");
@@ -136,7 +145,6 @@ const TestTable = ({ tests, setTests, setLoading, loading }) => {
       20,
       { align: "right" }
     );
-
     // Reset text color
     pdf.setTextColor(0, 0, 0);
 
@@ -180,12 +188,21 @@ const TestTable = ({ tests, setTests, setLoading, loading }) => {
 
   return (
     <div className="relative overflow-x-auto shadow-sm sm:rounded-lg">
-      <table className="w-full text-sm text-left text-gray-500 rtl:text-right dark:text-gray-400">
-      <thead class="text-xs text-white uppercase bg-[#3067af] dark:bg-gray-700 dark:text-gray-400">
+      <div className="flex justify-end my-4">
+        <button
+          onClick={handleDownloadPDF}
+          className="flex items-center gap-2 px-4 py-2 font-bold text-white bg-red-500 rounded"
+        >
+          <FaFilePdf /> PDF
+        </button>
+      </div>
+      <table
+        id="test-table"
+        className="w-full text-sm text-left text-gray-500 rtl:text-right dark:text-gray-400"
+      >
+        <thead class="text-xs text-white uppercase bg-[#3067af] dark:bg-gray-700 dark:text-gray-400">
           <tr>
-            <th scope="col" className="px-6 py-3">
-              
-            </th>
+            <th scope="col" className="px-6 py-3"></th>
             <th scope="col" className="px-6 py-3">
               Id
             </th>
@@ -252,7 +269,9 @@ const TestTable = ({ tests, setTests, setLoading, loading }) => {
               <td className="px-6 py-4">{test.testDate}</td>
               <td className="px-6 py-4">{test.testDescription}</td>
               <td className="px-6 py-4">
-              {test.patient ? patients[test.patient.id] || "Unknown" : "Unknown"}
+                {test.patient
+                  ? patients[test.patient.id] || "Unknown"
+                  : "Unknown"}
               </td>
 
               {/* <td className="hidden px-6 py-4">{test.doctor.id}</td> */}
@@ -263,7 +282,9 @@ const TestTable = ({ tests, setTests, setLoading, loading }) => {
               {/* <td className="hidden px-6 py-4">{test.technician.id}</td> */}
               <td className="px-6 py-4">
                 {/* {technicians[test.technician.id] || "Unknown"} */}
-                {test.technician ? technicians[test.technician.id] || "Unknown" : "Unknown"}
+                {test.technician
+                  ? technicians[test.technician.id] || "Unknown"
+                  : "Unknown"}
               </td>
 
               <td className="px-6 py-4">{test.recommender}</td>

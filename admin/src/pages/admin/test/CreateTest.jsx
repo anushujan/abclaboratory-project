@@ -1,5 +1,8 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { RxSlash } from "react-icons/rx";
 
 const CreateTest = () => {
   const [testName, setTestName] = useState("");
@@ -84,6 +87,16 @@ const CreateTest = () => {
       );
 
       console.log("Test created successfully:", response.data);
+      toast.info("Test Data created successfully", {
+        position: "top-right",
+        autoClose: 2000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "colored",
+      });
 
       // Clear the form
       setTestName("");
@@ -133,149 +146,23 @@ const CreateTest = () => {
 
   return (
     <div className="flex flex-col w-full gap-5 mx-auto">
+      <nav class="my-2">
+        <ol class="flex text-gray-500">
+          <li class="flex items-center">
+            <a href="/dashboard" class="hover:text-blue-500">
+              Home
+            </a>
+            <RxSlash />
+          </li>
+          <li class="flex items-center text-blue-500">
+            <span>Create Test</span>
+          </li>
+        </ol>
+      </nav>
+      <hr />
       <div className="flex flex-col lg:flex-row lg:gap-3">
         <form className="" onSubmit={handleSubmit}>
           <div className="p-[20px] bg-white rounded-md shadow-sm lg:w-[560px]">
-            {/* Test Name */}
-            <div className="mb-5 lg:w-[500px]">
-              <label
-                htmlFor="testName"
-                className="block mb-2 text-sm font-medium text-gray-900"
-              >
-                Test Name
-              </label>
-              <input
-                type="text"
-                id="testName"
-                name="testName"
-                className={`shadow-sm ${
-                  errors.testName ? "border-red-500" : "border-gray-300"
-                } bg-gray-50 border text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5`}
-                value={testName}
-                onChange={(e) => setTestName(e.target.value)}
-              />
-              {errors.testName && (
-                <p className="mt-1 text-xs text-red-500">{errors.testName}</p>
-              )}
-            </div>
-
-            {/* Test Type */}
-            <div className="mb-5 lg:w-[500px]">
-              <label
-                htmlFor="testType"
-                className="block mb-2 text-sm font-medium text-gray-900"
-              >
-                Test Type
-              </label>
-              <input
-                type="text"
-                id="testType"
-                name="testType"
-                className={`shadow-sm ${
-                  errors.testType ? "border-red-500" : "border-gray-300"
-                } bg-gray-50 border text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5`}
-                value={testType}
-                onChange={(e) => setTestType(e.target.value)}
-              />
-              {errors.testType && (
-                <p className="mt-1 text-xs text-red-500">{errors.testType}</p>
-              )}
-            </div>
-
-            {/* Test Description */}
-            <div className="mb-5 lg:w-[500px]">
-              <label
-                htmlFor="testDescription"
-                className="block mb-2 text-sm font-medium text-gray-900"
-              >
-                Test Description
-              </label>
-              <textarea
-                id="testDescription"
-                name="testDescription"
-                className={`shadow-sm ${
-                  errors.testDescription ? "border-red-500" : "border-gray-300"
-                } bg-gray-50 border text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5`}
-                value={testDescription}
-                onChange={(e) => setTestDescription(e.target.value)}
-              ></textarea>
-              {errors.testDescription && (
-                <p className="mt-1 text-xs text-red-500">
-                  {errors.testDescription}
-                </p>
-              )}
-            </div>
-
-            {/* Test Result */}
-            <div className="mb-5 lg:w-[500px]">
-              <label
-                htmlFor="testResult"
-                className="block mb-2 text-sm font-medium text-gray-900"
-              >
-                Test Result
-              </label>
-              <input
-                type="text"
-                id="testResult"
-                name="testResult"
-                className={`shadow-sm ${
-                  errors.testResult ? "border-red-500" : "border-gray-300"
-                } bg-gray-50 border text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5`}
-                value={testResult}
-                onChange={(e) => setTestResult(e.target.value)}
-              />
-              {errors.testResult && (
-                <p className="mt-1 text-xs text-red-500">{errors.testResult}</p>
-              )}
-            </div>
-
-            {/* Test Date */}
-            <div className="mb-5 lg:w-[500px]">
-              <label
-                htmlFor="testDate"
-                className="block mb-2 text-sm font-medium text-gray-900"
-              >
-                Test Date
-              </label>
-              <input
-                type="date"
-                id="testDate"
-                name="testDate"
-                className={`shadow-sm ${
-                  errors.testDate ? "border-red-500" : "border-gray-300"
-                } bg-gray-50 border text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5`}
-                value={testDate}
-                onChange={(e) => setTestDate(e.target.value)}
-              />
-              {errors.testDate && (
-                <p className="mt-1 text-xs text-red-500">{errors.testDate}</p>
-              )}
-            </div>
-
-            {/* Recommender */}
-            <div className="mb-5 lg:w-[500px]">
-              <label
-                htmlFor="recommender"
-                className="block mb-2 text-sm font-medium text-gray-900"
-              >
-                Recommender
-              </label>
-              <input
-                type="text"
-                id="recommender"
-                name="recommender"
-                className={`shadow-sm ${
-                  errors.recommender ? "border-red-500" : "border-gray-300"
-                } bg-gray-50 border text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5`}
-                value={recommender}
-                onChange={(e) => setRecommender(e.target.value)}
-              />
-              {errors.recommender && (
-                <p className="mt-1 text-xs text-red-500">
-                  {errors.recommender}
-                </p>
-              )}
-            </div>
             {/* Select Patient */}
             <div className="mb-5 lg:w-[500px]">
               <label
@@ -308,38 +195,185 @@ const CreateTest = () => {
                 </p>
               )}
             </div>
+            <div className="flex flex-col lg:gap-3 lg:flex-row lg:w-[500px]">
+              {/* Test Name */}
+              <div className="mb-5 lg:w-[500px]">
+                <label
+                  htmlFor="testName"
+                  className="block mb-2 text-sm font-medium text-gray-900"
+                >
+                  Test Name
+                </label>
+                <input
+                  type="text"
+                  id="testName"
+                  name="testName"
+                  className={`shadow-sm ${
+                    errors.testName ? "border-red-500" : "border-gray-300"
+                  } bg-gray-50 border text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5`}
+                  value={testName}
+                  onChange={(e) => setTestName(e.target.value)}
+                />
+                {errors.testName && (
+                  <p className="mt-1 text-xs text-red-500">{errors.testName}</p>
+                )}
+              </div>
 
-            {/* Select Doctor */}
+              {/* Test Type */}
+              <div className="mb-5 lg:w-[500px]">
+                <label
+                  htmlFor="testType"
+                  className="block mb-2 text-sm font-medium text-gray-900"
+                >
+                  Test Type
+                </label>
+                <input
+                  type="text"
+                  id="testType"
+                  name="testType"
+                  className={`shadow-sm ${
+                    errors.testType ? "border-red-500" : "border-gray-300"
+                  } bg-gray-50 border text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5`}
+                  value={testType}
+                  onChange={(e) => setTestType(e.target.value)}
+                />
+                {errors.testType && (
+                  <p className="mt-1 text-xs text-red-500">{errors.testType}</p>
+                )}
+              </div>
+            </div>
+
+            {/* Test Description */}
             <div className="mb-5 lg:w-[500px]">
               <label
-                htmlFor="selectedDoctor"
+                htmlFor="testDescription"
                 className="block mb-2 text-sm font-medium text-gray-900"
               >
-                Select Doctor
+                Test Description
               </label>
-              <select
-                id="selectedDoctor"
-                name="selectedDoctor"
+              <textarea
+                id="testDescription"
+                name="testDescription"
                 className={`shadow-sm ${
-                  errors.selectedDoctor ? "border-red-500" : "border-gray-300"
+                  errors.testDescription ? "border-red-500" : "border-gray-300"
                 } bg-gray-50 border text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5`}
-                value={selectedDoctor}
-                onChange={(e) => setSelectedDoctor(e.target.value)}
-              >
-                <option value="" disabled>
-                  Select Doctor
-                </option>
-                {doctors.map((doctor) => (
-                  <option key={doctor.id} value={doctor.id}>
-                    {doctor.name}
-                  </option>
-                ))}
-              </select>
-              {errors.selectedDoctor && (
+                value={testDescription}
+                onChange={(e) => setTestDescription(e.target.value)}
+              ></textarea>
+              {errors.testDescription && (
                 <p className="mt-1 text-xs text-red-500">
-                  {errors.selectedDoctor}
+                  {errors.testDescription}
                 </p>
               )}
+            </div>
+            <div className="flex flex-col lg:gap-3 lg:flex-row lg:w-[500px]">
+              {/* Test Result */}
+              <div className="mb-5 lg:w-[500px]">
+                <label
+                  htmlFor="testResult"
+                  className="block mb-2 text-sm font-medium text-gray-900"
+                >
+                  Test Result
+                </label>
+                <input
+                  type="text"
+                  id="testResult"
+                  name="testResult"
+                  className={`shadow-sm ${
+                    errors.testResult ? "border-red-500" : "border-gray-300"
+                  } bg-gray-50 border text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5`}
+                  value={testResult}
+                  onChange={(e) => setTestResult(e.target.value)}
+                />
+                {errors.testResult && (
+                  <p className="mt-1 text-xs text-red-500">
+                    {errors.testResult}
+                  </p>
+                )}
+              </div>
+
+              {/* Test Date */}
+              <div className="mb-5 lg:w-[500px]">
+                <label
+                  htmlFor="testDate"
+                  className="block mb-2 text-sm font-medium text-gray-900"
+                >
+                  Test Date
+                </label>
+                <input
+                  type="date"
+                  id="testDate"
+                  name="testDate"
+                  className={`shadow-sm ${
+                    errors.testDate ? "border-red-500" : "border-gray-300"
+                  } bg-gray-50 border text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5`}
+                  value={testDate}
+                  onChange={(e) => setTestDate(e.target.value)}
+                />
+                {errors.testDate && (
+                  <p className="mt-1 text-xs text-red-500">{errors.testDate}</p>
+                )}
+              </div>
+            </div>
+
+            <div className="flex flex-col lg:gap-3 lg:flex-row lg:w-[500px]">
+              {/* Recommender */}
+              <div className="mb-5 lg:w-[500px]">
+                <label
+                  htmlFor="recommender"
+                  className="block mb-2 text-sm font-medium text-gray-900"
+                >
+                  Recommender
+                </label>
+                <input
+                  type="text"
+                  id="recommender"
+                  name="recommender"
+                  className={`shadow-sm ${
+                    errors.recommender ? "border-red-500" : "border-gray-300"
+                  } bg-gray-50 border text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5`}
+                  value={recommender}
+                  onChange={(e) => setRecommender(e.target.value)}
+                />
+                {errors.recommender && (
+                  <p className="mt-1 text-xs text-red-500">
+                    {errors.recommender}
+                  </p>
+                )}
+              </div>
+
+              {/* Select Doctor */}
+              <div className="mb-5 lg:w-[500px]">
+                <label
+                  htmlFor="selectedDoctor"
+                  className="block mb-2 text-sm font-medium text-gray-900"
+                >
+                  Select Doctor
+                </label>
+                <select
+                  id="selectedDoctor"
+                  name="selectedDoctor"
+                  className={`shadow-sm ${
+                    errors.selectedDoctor ? "border-red-500" : "border-gray-300"
+                  } bg-gray-50 border text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5`}
+                  value={selectedDoctor}
+                  onChange={(e) => setSelectedDoctor(e.target.value)}
+                >
+                  <option value="" disabled>
+                    Select Doctor
+                  </option>
+                  {doctors.map((doctor) => (
+                    <option key={doctor.id} value={doctor.id}>
+                      {doctor.name}
+                    </option>
+                  ))}
+                </select>
+                {errors.selectedDoctor && (
+                  <p className="mt-1 text-xs text-red-500">
+                    {errors.selectedDoctor}
+                  </p>
+                )}
+              </div>
             </div>
 
             {/* Select Technician */}
@@ -394,6 +428,18 @@ const CreateTest = () => {
           </div>
         </form>
       </div>
+      <ToastContainer
+        position="top-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="colored"
+      />
     </div>
   );
 };

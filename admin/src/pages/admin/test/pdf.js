@@ -1,107 +1,109 @@
-MAIL_MAILER=smtp
-MAIL_HOST=smtp.titan.email
-MAIL_PORT=587
-MAIL_USERNAME=anushujan@microwe.net
-MAIL_PASSWORD=Anushujan@123
-MAIL_ENCRYPTION=tls
-MAIL_FROM_ADDRESS=anushujan@microwe.net
-MAIL_FROM_NAME=Anushujan
+// MAIL_MAILER=smtp
+// MAIL_HOST=smtp.titan.email
+// MAIL_PORT=587
+// MAIL_USERNAME=anushujan@microwe.net
+// MAIL_PASSWORD=Anushujan@123
+// MAIL_ENCRYPTION=tls
+// MAIL_FROM_ADDRESS=anushujan@microwe.net
+// MAIL_FROM_NAME=Anushujan
 
 
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { useParams } from "react-router-dom";
+import jsPDF from "jspdf";
+import "jspdf-autotable";
 
-const EditTest = () => {
-  const { id } = useParams();
-  const [testData, setTestData] = useState({});
-  const [loading, setLoading] = useState(true);
+const AppointmentTable = () => {
+  const [appointments, setAppointments] = useState([]);
+  const [doctors, setDoctors] = useState({});
 
   useEffect(() => {
-    // Fetch test details based on the ID
+    // Fetch appointments from the backend API
     axios
-      .get(`http://localhost:8080/api/tests/${id}`)
+      .get("http://localhost:8080/api/appointments/all")
       .then((response) => {
-        setTestData(response.data);
-        setLoading(false);
+        setAppointments(response.data);
       })
       .catch((error) => {
-        console.error("Error fetching test details:", error);
-        setLoading(false);
+        console.error("Error fetching appointments:", error);
       });
-  }, [id]);
+  }, []);
 
-  const handleChange = (e) => {
-    setTestData((prevTestData) => ({
-      ...prevTestData,
-      [e.target.name]: e.target.value,
-    }));
-  };
+  useEffect(() => {
+    // Fetch doctor details
+    const fetchDoctors = async () => {
+      try {
+        const response = await axios.get("http://localhost:8080/api/doctors/all");
+        const doctorsData = {};
+        response.data.forEach((doctor) => {
+          doctorsData[doctor.id] = doctor.name;
+        });
+        setDoctors(doctorsData);
+      } catch (error) {
+        console.error("Error fetching doctor details:", error);
+      }
+    };
 
-  const handleSaveChanges = async () => {
+    fetchDoctors();
+  }, []);
+
+  const handleDelete = async (id) => {
     try {
-      // Make a request to update the test data
-      const response = await axios.put(
-        `http://localhost:8080/api/tests/${id}`,
-        testData
-      );
-      console.log("Test Updated successfully:", response.data);
-
-      // Handle any further actions (e.g., redirection)
+      await axios.delete(`http://localhost:8080/api/appointments/delete/${id}`);
+      setAppointments(appointments.filter((appointment) => appointment.id !== id));
     } catch (error) {
-      console.error("Error updating test:", error);
+      console.error("Error deleting appointment:", error);
     }
   };
 
-  if (loading) {
-    return <p>Loading...</p>; // You can replace this with a loading spinner or animation
-  }
+  const handleDownloadPDF = () => {
+    const doc = new jsPDF();
+    doc.autoTable({ html: "#appointment-table" });
+    doc.save("appointments.pdf");
+  };
 
   return (
-    <div className="flex flex-col w-full gap-5 mx-auto">
-      <h3 className="text-[20px]">Edit Test</h3>
-      <div className="p-[20px] bg-white rounded-md shadow-sm lg:w-[560px] dark:bg-[#0e2139]">
-        {/* You can use the values from testData to pre-fill the form */}
-        <div>
-          <label htmlFor="testName">Test Name:</label>
-          <input
-            type="text"
-            id="testName"
-            name="testName"
-            value={testData.testName}
-            onChange={handleChange}
-          />
-        </div>
-        <div>
-          <label htmlFor="testType">Test Type:</label>
-          <input
-            type="text"
-            id="testType"
-            name="testType"
-            value={testData.testType}
-            onChange={handleChange}
-          />
-        </div>
-        {/* Add similar blocks for other fields using testData */}
-        {/* Include form fields and buttons for editing */}
-        <div className="flex justify-end">
-          <button
-            type="button"
-            className="text-white bg-[#cb3636] hover:bg-[#e05050] font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2"
-          >
-            Cancel
-          </button>
-          <button
-            type="button"
-            className="text-white bg-[#3067af] hover:bg-[#0e2139] font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2"
-            onClick={handleSaveChanges}
-          >
-            Save Changes
-          </button>
-        </div>
+    <div className="container mx-auto">
+      <h2 className="mb-4 text-xl font-semibold text-red-600">Appointment Table</h2>
+      <table id="appointment-table" className="min-w-full divide-y divide-gray-200">
+        <thead className="bg-gray-50">
+          <tr>
+            <th scope="col" className="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase">Name</th>
+            <th scope="col" className="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase">Age</th>
+            <th scope="col" className="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase">Gender</th>
+            <th scope="col" className="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase">Mobile Number</th>
+            <th scope="col" className="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase">Reason for Appointment</th>
+            <th scope="col" className="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase">Appointment Time</th>
+            <th scope="col" className="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase">Appointment Number</th>
+            <th scope="col" className="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase">Doctor</th>
+            <th scope="col" className="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase">Actions</th>
+          </tr>
+        </thead>
+        <tbody className="bg-white divide-y divide-gray-200">
+          {appointments.map((appointment) => (
+            <tr key={appointment.id}>
+              <td className="px-6 py-4 whitespace-nowrap">{appointment.name}</td>
+              <td className="px-6 py-4 whitespace-nowrap">{appointment.age}</td>
+              <td className="px-6 py-4 whitespace-nowrap">{appointment.gender}</td>
+              <td className="px-6 py-4 whitespace-nowrap">{appointment.mobileNumber}</td>
+              <td className="px-6 py-4 whitespace-nowrap">{appointment.reasonAppointment}</td>
+              <td className="px-6 py-4 whitespace-nowrap">{appointment.appointmentTime}</td>
+              <td className="px-6 py-4 whitespace-nowrap">{appointment.appointmentNumber}</td>
+              <td className="px-6 py-4 whitespace-nowrap">{doctors[appointment.doctor.id]}</td>
+              <td className="px-6 py-4 whitespace-nowrap">
+                <button onClick={() => handleDelete(appointment.id)} className="text-red-600 hover:text-red-900 focus:outline-none">Delete</button>
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+      <div className="mt-4">
+        <button onClick={handleDownloadPDF} className="px-4 py-2 font-bold text-white bg-blue-500 rounded hover:bg-blue-700">
+          Download PDF
+        </button>
       </div>
     </div>
   );
 };
 
-export default EditTest;
+export default AppointmentTable;

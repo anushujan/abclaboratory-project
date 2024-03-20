@@ -18,14 +18,19 @@ const CreateRegistration = () => {
       .email("Invalid email format")
       .required("Email is required"),
     address: yup.string().required("Address is required"),
+    reason: yup.string().required("Reason is required"),
   });
 
+  //==============================
+  //========post patient data=====
+  //==============================
   const formik = useFormik({
     initialValues: {
       name: "",
       phone: "",
       email: "",
       address: "",
+      reason:""
     },
     validationSchema: validationSchema,
     onSubmit: async (values) => {
@@ -167,6 +172,29 @@ const CreateRegistration = () => {
                 />
                 {formik.touched.address && formik.errors.address && (
                   <p className="mt-1 text-xs text-red-500">{formik.errors.address}</p>
+                )}
+              </div>
+              <div class="mb-5 lg:w-[500px] ">
+                <label
+                  for="address"
+                  className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                >
+                  Reason for appointment
+                </label>
+                <input
+                  type="reason"
+                  id="reason"
+                  name="reason"
+                  className={`shadow-sm ${
+                    formik.touched.reason && formik.errors.reason ? "border-red-500" : "border-gray-300"
+                  } bg-gray-50 border text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light`}
+                  placeholder="Enter Reason"
+                  onChange={formik.handleChange}
+                  onBlur={formik.handleBlur}
+                  value={formik.values.reason}
+                />
+                {formik.touched.reason && formik.errors.reason && (
+                  <p className="mt-1 text-xs text-red-500">{formik.errors.reason}</p>
                 )}
               </div>
               <div className="flex justify-end">

@@ -29,9 +29,12 @@ import EditTechnician from "../pages/admin/technician/EditTechnician";
 import EditTest from "../pages/admin/test/EditTest";
 import CreateTest from "../pages/admin/test/CreateTest";
 import PaymentForm from "../pages/admin/payment/PaymentForm";
+import AppoinmtentDetails from "../pages/Patient/Appointment/AppoinmtentDetails";
 
 const Root = () => {
-  const [userRole, setUserRole] = useState(localStorage.getItem("userRole") || "");
+  const [userRole, setUserRole] = useState(
+    localStorage.getItem("userRole") || ""
+  );
 
   const handleLogin = (role) => {
     setUserRole(role);
@@ -65,6 +68,7 @@ const Root = () => {
             <Route path="patient-dashboard" element={<PatientDashboard />} />
             <Route path="appointment" element={<AllAppointments />} />
             <Route path="create-appointment" element={<CreateAppointment />} />
+            <Route path="appointment-details" element={<AppoinmtentDetails />} />
             <Route path="edit-appointment/:id" element={<EditAppointment />} />
             <Route
               path="patient-registration"
