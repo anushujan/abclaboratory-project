@@ -16,7 +16,9 @@ import java.util.List;
 public class TestController {
     @Autowired
     private TestService testService;
-
+    //=======================================
+    //============get all Test===============
+    //=======================================
     @GetMapping("/all")
     public ResponseEntity<List<Test>> getAllTests() {
         try {
@@ -26,7 +28,9 @@ public class TestController {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-
+    //=======================================
+    //=============create Test===============
+    //=======================================
     @PostMapping("/create")
     public ResponseEntity<?> addTest(@RequestBody @Valid Test test) {
         try {
@@ -36,7 +40,9 @@ public class TestController {
             return new ResponseEntity<>("Failed to create test. Reason: " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-
+    //=======================================
+    //=============get by id Test============
+    //=======================================
     @GetMapping("/{id}")
     public ResponseEntity<Test> getTestById(@PathVariable Long id) {
         try {
@@ -50,7 +56,9 @@ public class TestController {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-
+    //=======================================
+    //===============edit Test===============
+    //=======================================
     @PutMapping("/edit/{id}")
     public ResponseEntity<?> editTest(@PathVariable Long id, @RequestBody Test updatedTest) {
         try {
@@ -64,7 +72,9 @@ public class TestController {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-
+    //=======================================
+    //=============delete Test===============
+    //=======================================
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<String> deleteTest(@PathVariable Long id) {
         try {
