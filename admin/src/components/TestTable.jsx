@@ -35,7 +35,7 @@ const TestTable = ({ tests, setTests, setLoading, loading }) => {
   const handleRemove = async (id) => {
     const result = await Swal.fire({
       title: "Are you sure?",
-      text: "You will not be able to recover this patient record!",
+      text: "You will not be able to recover this Test record!",
       icon: "warning",
       showCancelButton: true,
       confirmButtonColor: "#d33",
