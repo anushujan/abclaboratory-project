@@ -33,12 +33,13 @@ Open IntelliJ IDEA and import the backend project.
 
 Run the main file or start the backend server.
 
+**Mobile responsive**
+
+<img width="200" alt="Screenshot 2024-03-24 at 18 24 51" src="https://github.com/anushujan/abclaboratory-project/assets/43997407/5f00d626-edb2-43e8-ae6a-bbe2eccbebcb">
 
 **Login Page**
 
 <img width="300" alt="Screenshot 2024-03-24 at 18 12 48" src="https://github.com/anushujan/abclaboratory-project/assets/43997407/d57643a7-f20b-4c03-a569-dc1e788b2b70">
-
-
 
 **Admin Dashboard**
 
